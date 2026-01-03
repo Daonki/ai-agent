@@ -1,46 +1,129 @@
-# AI Interview Agent (AI 면접관)
+# 📱 Smartphone Sensor-Based Hierarchical Motion Classification
 
-📌 프로젝트 소개  
-지원 직무와 이력 정보를 기반으로 실제 면접과 유사한 질문을 생성하고,  
-사용자 응답에 따라 후속 질문을 이어가며 답변의 질을 **상·중·하로 평가하는**  
-AI Agent 기반 채팅형 AI 면접관 프로젝트입니다.
+스마트폰 가속도·자이로 센서 데이터를 활용하여  
+사용자의 행동을 **계층적 분류(Hierarchical Classification)** 방식으로 예측하는 프로젝트입니다.
 
-LLM을 활용한 면접 질문 생성, 대화 흐름 제어, 답변 평가 로직을 설계하여  
-**질문–응답–평가가 연결된 면접 시나리오**를 구현했습니다.
+본 프로젝트는 기존의 6개 행동 다중 분류 문제를  
+**정적 / 동적 행동 → 세부 행동 분류**의 두 단계로 재구성하여  
+센서 데이터의 물리적 특성을 효과적으로 반영하는 것을 목표로 합니다.
 
 ---
 
-🛠 사용 기술
+## 📌 Project Overview
+
+- **Task**
+  - 스마트폰 센서 데이터 기반 사용자 행동 인식
+- **Dataset**
+  - UCI Human Activity Recognition (HAR) Dataset
+- **Total Classes**
+  - LAYING, SITTING, STANDING  
+  - WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS
+
+---
+
+## 🧠 Key Idea: Hierarchical Classification
+
+기존 방식  
+- 6개 행동을 한 번에 분류 →  
+  정적 행동(SITTING / STANDING) 간 혼동 발생
+
+개선 방식  
+1. **Stage 1**  
+   - 정적(0) / 동적(1) 행동 이진 분류  
+2. **Stage 2**  
+   - 정적 행동 → LAYING / SITTING / STANDING  
+   - 동적 행동 → WALKING / UP / DOWN  
+
+➡️ 문제를 단계적으로 분해하여 분류 성능과 해석력을 동시에 확보
+
+---
+
+## 📊 Exploratory Data Analysis (EDA)
+
+- RandomForest 기반 **Feature Importance 분석**
+- 주요 관찰 사항
+  - 중력 및 각도 관련 feature가 LAYING 구분에 매우 중요
+  - 정적/동적 행동은 센서 에너지·주기성에서 명확한 차이를 보임
+- 결론
+  - 정적/동적 분리는 데이터 관점에서 매우 안정적
+
+---
+
+## 🏗️ Modeling Architecture
+
+### Stage 1: Static vs Dynamic Classification
+- Model: Deep Neural Network (Binary Classification)
+- Input: 561 sensor features
+- Output: is_dynamic (0 or 1)
+- Accuracy: **~100%**
+
+### Stage 2-1: Static Activity Classification
+- Classes: LAYING / SITTING / STANDING
+- Accuracy: **~93%**
+- 주요 혼동: SITTING ↔ STANDING
+
+### Stage 2-2: Dynamic Activity Classification
+- Classes: WALKING / WALKING_UPSTAIRS / WALKING_DOWNSTAIRS
+- Accuracy: **~97%**
+
+---
+
+## 🔄 End-to-End Pipeline
+
+- 전처리 → 스케일링 → 단계별 예측 → 성능 평가
+- 새로운 데이터(test)에 바로 적용 가능하도록 함수화
+- 실제 서비스 구조를 고려한 파이프라인 구성
+
+---
+
+## 🧪 (Optional) Multi-Task Learning Model
+
+- 하나의 네트워크에서
+  - is_dynamic
+  - activity
+  를 동시에 예측
+- 목적
+  - 계층 구조를 단일 모델로 통합 가능성 실험
+- 결과
+  - 성능은 유사
+  - 해석력 측면에서는 단계적 모델이 더 명확
+
+---
+
+## 📈 Performance Summary
+
+| Task | Accuracy |
+|-----|---------|
+| Static vs Dynamic | ~1.00 |
+| Static Activity | ~0.93 |
+| Dynamic Activity | ~0.97 |
+| Overall (Pipeline) | ~0.96 |
+
+---
+
+## ⚠️ Limitations
+
+- SITTING / STANDING 구분의 센서 물리적 한계
+- 시계열 구조를 직접 활용하지 않음
+- 개인별(subject) 특성 미반영
+
+➡️ 단, 문제 구조 재설계를 통해 한계를 완화
+
+---
+
+## 🛠️ Tech Stack
+
 - Python
-- LLM (OpenAI API)
-- Prompt Engineering
-- Gradio (채팅형 UI)
+- Pandas, NumPy
+- Scikit-learn
+- TensorFlow / Keras
+- Matplotlib, Seaborn
 
 ---
 
-⚙️ 주요 기능
-- 지원 직무 및 이력 정보 기반 면접 질문 생성
-- 사용자 답변에 따라 맥락을 반영한 후속 질문 생성
-- 답변의 충실도·논리성·직무 적합도를 기준으로 상·중·하 평가
-- 질문 → 응답 → 평가 → 후속 질문으로 이어지는 면접 흐름 구성
+## ✨ Summary
 
----
+> 센서 데이터의 물리적 특성을 고려하여  
+> 행동 인식 문제를 계층적으로 재정의한  
+> **Hierarchical Motion Classification 프로젝트**
 
-👩‍💻 담당 역할
-- 면접 질문 생성 및 흐름 제어를 위한 AI Agent 구조 설계
-- 답변 평가 기준(상·중·하) 및 평가 로직 설계
-- 질문–응답–평가 모듈 간 출력 형식 일관성 유지
-- 면접관 톤과 질문 깊이를 유지하기 위한 프롬프트 구조 개선
-
----
-
-📈 결과
-- 실제 면접과 유사한 흐름의 인터뷰 시나리오 구현
-- 답변에 따라 질문 깊이가 달라지는 대화형 면접 경험 제공
-- 평가 기준이 명확한 일관된 답변 평가 결과 도출
-
----
-
-📂 프로젝트 구성
-- `Step1_AI면접관_Agent_구축.ipynb` : 기본 면접 질문·응답·평가 흐름 구현
-- `Step2_AI면접관_Agent_고도화.ipynb` : 질문 깊이 및 평가 안정성 개선
