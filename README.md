@@ -1,4 +1,4 @@
-# 🤖 AI Interviewer Agent v2.0
+# AI Interviewer Agent v2.0
 ### Resume-driven Multi-stage Interview Agent with Reflection & Strategy Control
 
 본 프로젝트는 이력서(PDF/DOCX)를 입력으로 받아  
@@ -9,11 +9,17 @@
 단순 Q&A 챗봇이 아닌,  
 **면접 전략·평가·흐름 제어를 명시적으로 모델링한 Agent 구조**를 목표로 합니다.
 
+> **KT AIVLE School 8기 · 팀 프로젝트 (4인) · 2025.10.30 ~ 11.03**
+>
+> **내 담당**
+> - LangGraph로 답변 평가 → 재평가(Reflection) → 다음 행동 결정 → 질문 생성 흐름을 제어하는 Agent 구조 설계·구현
+> - 평가 기준과 출력 형식을 프롬프트에 명시해 평가 일관성 개선
+
 ---
 
-## 📌 Project Overview
+## Project Overview
 
-### 🎯 목표
+### 목표
 - 이력서 기반 자동 면접 진행 Agent 구현
 - 질문 생성·답변 평가·종료 판단을 **규칙 + LLM 혼합 구조**로 설계
 - 평가의 신뢰성을 높이기 위한 **Reflection(재검토) 단계 도입**
@@ -21,7 +27,7 @@
 
 ---
 
-## 🧩 Input Data
+## Input Data
 
 - **입력 형식**: PDF / DOCX 이력서
 - **주요 입력 정보**
@@ -35,7 +41,7 @@
 
 ---
 
-## 🧠 Problem Definition
+## Problem Definition
 
 ### 왜 다단계 면접 Agent인가?
 - 실제 면접은 **질문 생성 → 답변 평가 → 다음 질문 판단**의 반복 구조
@@ -44,11 +50,11 @@
   - 평가 기준 통제
   - 면접 종료 판단이 어려움
 
-👉 따라서 면접 과정을 **상태 기반(State-driven) Agent**로 재정의
+따라서 면접 과정을 **상태 기반(State-driven) Agent**로 재정의
 
 ---
 
-## 🧱 Agent Architecture
+## Agent Architecture
 Resume Input
 ↓
 Resume Analysis & Summary
@@ -64,7 +70,7 @@ Final Feedback Report
 
 ---
 
-## 🧠 Interview Strategy Design
+## Interview Strategy Design
 
 면접은 다음 5개 전략 영역을 기준으로 진행됩니다.
 
@@ -82,7 +88,7 @@ Final Feedback Report
 
 ---
 
-## 🔍 Step 1. Resume Pre-processing
+## Step 1. Resume Pre-processing
 
 - 이력서 전체 요약 생성
 - 전략별 질문 생성에 활용할 핵심 키워드 추출
@@ -91,7 +97,7 @@ Final Feedback Report
 
 ---
 
-## 🤖 Step 2. Interview Agent (LangGraph)
+## Step 2. Interview Agent (LangGraph)
 
 ### 주요 노드 구성
 - **evaluate**: 답변 평가 (관련성 / 구체성)
@@ -103,7 +109,7 @@ Final Feedback Report
 
 ---
 
-## 🔁 Reflection Mechanism
+## Reflection Mechanism
 
 다음 조건에서 평가 재검토 수행:
 - 답변이 지나치게 짧은 경우
@@ -114,7 +120,7 @@ Final Feedback Report
 
 ---
 
-## 🔀 Interview Flow Control
+## Interview Flow Control
 
 다음 기준에 따라 면접 흐름을 제어합니다.
 
@@ -125,7 +131,7 @@ Final Feedback Report
 
 ---
 
-## 🧾 Step 3. Feedback Report Generation
+## Step 3. Feedback Report Generation
 
 ### 전략별 피드백
 - 답변 요약
@@ -140,7 +146,7 @@ Final Feedback Report
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - Python
 - LangChain / LangGraph
@@ -151,7 +157,7 @@ Final Feedback Report
 
 ---
 
-## 📊 Key Insights
+## Key Insights
 
 - 면접 Agent에서는 **모델 성능보다 흐름 설계가 중요**
 - Reflection 구조는 평가 신뢰도 향상에 효과적
@@ -159,7 +165,7 @@ Final Feedback Report
 
 ---
 
-## ⚠️ Limitations
+## Limitations
 
 - 실제 음성 면접(STT/TTS) 미적용
 - 회사/직무별 맞춤 전략은 기본 수준
@@ -167,7 +173,7 @@ Final Feedback Report
 
 ---
 
-## 🚀 Future Work
+## Future Work
 
 - 직무·기업별 면접 전략 템플릿
 - 음성 기반 실시간 면접
@@ -176,7 +182,7 @@ Final Feedback Report
 
 ---
 
-## ✍️ Summary
+## Summary
 > 이력서 기반 면접 과정을 상태 기반 Agent로 재구성하여  
 > 질문 생성, 평가, 흐름 제어를 구조적으로 설계한  
 > 다단계 AI 면접관 Agent 프로젝트
