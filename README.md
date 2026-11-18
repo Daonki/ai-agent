@@ -55,18 +55,21 @@
 ---
 
 ## Agent Architecture
+
+```
 Resume Input
-↓
+   ↓
 Resume Analysis & Summary
-↓
+   ↓
 Question Strategy Planning
-↓
+   ↓
 [ Interview Loop ]
 Question → Answer → Evaluation → Reflection → Decision
-↓
+   ↓
 Interview Termination
-↓
+   ↓
 Final Feedback Report
+```
 
 ---
 
