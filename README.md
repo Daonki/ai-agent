@@ -157,6 +157,14 @@ Final Feedback Report
 
 ---
 
+## How to Run
+
+1. Google Colab에서 `Step1_AI면접관 Agent_구축.ipynb` → `Step2_AI면접관 Agent_고도화.ipynb` 순서로 실행
+2. OpenAI API 키 필요 (노트북 상단 환경 변수 셀에 입력)
+3. 이력서 파일(PDF 또는 DOCX)을 업로드한 뒤 Gradio 화면에서 면접 시작
+
+---
+
 ## Key Insights
 
 - 면접 Agent에서는 **모델 성능보다 흐름 설계가 중요**
